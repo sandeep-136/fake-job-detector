@@ -1,0 +1,83 @@
+{
+  "dataset_rows_after_dedup": 16066,
+  "train_rows": 12852,
+  "test_rows": 3214,
+  "fraud_rate": 0.0447,
+  "selected_model": "linear_svc_calibrated",
+  "selection_metric": "f1_fraud (fraud class, held-out test set)",
+  "results": [
+    {
+      "model": "dummy_majority",
+      "precision_fraud": 0.0,
+      "recall_fraud": 0.0,
+      "f1_fraud": 0.0,
+      "roc_auc": 0.5,
+      "avg_precision": 0.0448,
+      "confusion_matrix": [
+        [
+          3070,
+          0
+        ],
+        [
+          144,
+          0
+        ]
+      ]
+    },
+    {
+      "model": "logistic_regression",
+      "precision_fraud": 0.7755,
+      "recall_fraud": 0.7917,
+      "f1_fraud": 0.7835,
+      "roc_auc": 0.969,
+      "avg_precision": 0.8503,
+      "confusion_matrix": [
+        [
+          3037,
+          33
+        ],
+        [
+          30,
+          114
+        ]
+      ]
+    },
+    {
+      "model": "multinomial_nb",
+      "precision_fraud": 0.8684,
+      "recall_fraud": 0.4583,
+      "f1_fraud": 0.6,
+      "roc_auc": 0.9528,
+      "avg_precision": 0.7384,
+      "confusion_matrix": [
+        [
+          3060,
+          10
+        ],
+        [
+          78,
+          66
+        ]
+      ]
+    },
+    {
+      "model": "linear_svc_calibrated",
+      "precision_fraud": 0.9016,
+      "recall_fraud": 0.7639,
+      "f1_fraud": 0.8271,
+      "roc_auc": 0.972,
+      "avg_precision": 0.8664,
+      "confusion_matrix": [
+        [
+          3058,
+          12
+        ],
+        [
+          34,
+          110
+        ]
+      ]
+    }
+  ],
+  "top_terms_selected_model": []
+}
