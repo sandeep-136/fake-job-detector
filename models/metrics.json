@@ -1,83 +1,103 @@
 {
-  "dataset_rows_after_dedup": 16066,
-  "train_rows": 12852,
-  "test_rows": 3214,
-  "fraud_rate": 0.0447,
-  "selected_model": "linear_svc_calibrated",
-  "selection_metric": "f1_fraud (fraud class, held-out test set)",
-  "results": [
+  "protocol": [
+    "duplicates removed before splitting (exact + case/punctuation variants)",
+    "one stratified 80/20 split; test set locked",
+    "model selection by 5-fold stratified CV on the training set only",
+    "selected model refit on full training set, evaluated once on the locked test set",
+    "residual near-duplicate overlap quantified (max TF-IDF cosine >= 0.8); restricted-subset metrics reported alongside"
+  ],
+  "dataset_rows_after_dedup": 15749,
+  "train_rows": 12599,
+  "test_rows": 3150,
+  "fraud_rate": 0.045,
+  "cv_selection_table": [
     {
       "model": "dummy_majority",
-      "precision_fraud": 0.0,
-      "recall_fraud": 0.0,
-      "f1_fraud": 0.0,
-      "roc_auc": 0.5,
-      "avg_precision": 0.0448,
-      "confusion_matrix": [
-        [
-          3070,
-          0
-        ],
-        [
-          144,
-          0
-        ]
-      ]
+      "cv_f1_mean": 0.0,
+      "cv_f1_std": 0.0,
+      "cv_precision_mean": 0.0,
+      "cv_precision_std": 0.0,
+      "cv_recall_mean": 0.0,
+      "cv_recall_std": 0.0,
+      "cv_roc_auc_mean": 0.5,
+      "cv_roc_auc_std": 0.0
     },
     {
       "model": "logistic_regression",
-      "precision_fraud": 0.7755,
-      "recall_fraud": 0.7917,
-      "f1_fraud": 0.7835,
-      "roc_auc": 0.969,
-      "avg_precision": 0.8503,
-      "confusion_matrix": [
-        [
-          3037,
-          33
-        ],
-        [
-          30,
-          114
-        ]
-      ]
+      "cv_f1_mean": 0.791,
+      "cv_f1_std": 0.0342,
+      "cv_precision_mean": 0.783,
+      "cv_precision_std": 0.0465,
+      "cv_recall_mean": 0.8003,
+      "cv_recall_std": 0.0313,
+      "cv_roc_auc_mean": 0.9782,
+      "cv_roc_auc_std": 0.0048
     },
     {
       "model": "multinomial_nb",
-      "precision_fraud": 0.8684,
-      "recall_fraud": 0.4583,
-      "f1_fraud": 0.6,
-      "roc_auc": 0.9528,
-      "avg_precision": 0.7384,
-      "confusion_matrix": [
-        [
-          3060,
-          10
-        ],
-        [
-          78,
-          66
-        ]
-      ]
+      "cv_f1_mean": 0.6292,
+      "cv_f1_std": 0.0549,
+      "cv_precision_mean": 0.7937,
+      "cv_precision_std": 0.0314,
+      "cv_recall_mean": 0.5229,
+      "cv_recall_std": 0.062,
+      "cv_roc_auc_mean": 0.9632,
+      "cv_roc_auc_std": 0.007
     },
     {
       "model": "linear_svc_calibrated",
-      "precision_fraud": 0.9016,
-      "recall_fraud": 0.7639,
-      "f1_fraud": 0.8271,
-      "roc_auc": 0.972,
-      "avg_precision": 0.8664,
-      "confusion_matrix": [
-        [
-          3058,
-          12
-        ],
-        [
-          34,
-          110
-        ]
-      ]
+      "cv_f1_mean": 0.8318,
+      "cv_f1_std": 0.0364,
+      "cv_precision_mean": 0.9229,
+      "cv_precision_std": 0.0379,
+      "cv_recall_mean": 0.7579,
+      "cv_recall_std": 0.043,
+      "cv_roc_auc_mean": 0.9811,
+      "cv_roc_auc_std": 0.0053
     }
   ],
-  "top_terms_selected_model": []
+  "selected_model": "linear_svc_calibrated",
+  "final_test_metrics": {
+    "precision_fraud": 0.9333,
+    "recall_fraud": 0.7887,
+    "f1_fraud": 0.855,
+    "roc_auc": 0.9875,
+    "avg_precision": 0.9183,
+    "confusion_matrix": [
+      [
+        3000,
+        8
+      ],
+      [
+        30,
+        112
+      ]
+    ],
+    "n": 3150,
+    "n_fraud": 142
+  },
+  "near_twin_analysis": {
+    "threshold_cosine": 0.8,
+    "test_postings_with_train_near_twin": 1273,
+    "share_of_test": 0.4041,
+    "restricted_test_metrics": {
+      "precision_fraud": 0.9194,
+      "recall_fraud": 0.6552,
+      "f1_fraud": 0.7651,
+      "roc_auc": 0.9739,
+      "avg_precision": 0.8557,
+      "confusion_matrix": [
+        [
+          1785,
+          5
+        ],
+        [
+          30,
+          57
+        ]
+      ],
+      "n": 1877,
+      "n_fraud": 87
+    }
+  }
 }

@@ -31,18 +31,32 @@ def load_postings(csv_path: str) -> pd.DataFrame:
     return df
 
 
-def deduplicate(df: pd.DataFrame) -> pd.DataFrame:
-    """Drop exact duplicate postings (identical text fields).
+def _normalize(text: str) -> str:
+    """Lowercase, collapse non-alphanumerics: catches duplicates that differ
+    only in case, punctuation or whitespace."""
+    import re
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", str(text).lower())).strip()
 
-    The public dataset contains many exact duplicates. If duplicates are left
-    in, copies of the same posting can land on both sides of a random split
-    and inflate evaluation scores, so dedup happens before any split.
+
+def deduplicate(df: pd.DataFrame) -> pd.DataFrame:
+    """Drop duplicate postings before any split.
+
+    Two passes: exact duplicates (identical text fields), then duplicates of
+    the normalized combined text (differing only in case/punctuation/spacing).
+    Left in, copies of the same posting can land on both sides of a random
+    split and inflate evaluation scores.
+
+    This does NOT catch reworded or templated near-duplicates; train.py
+    quantifies those separately instead of claiming they are handled.
     """
     before = len(df)
     subset = [c for c in TEXT_COLUMNS if c in df.columns]
-    df = df.drop_duplicates(subset=subset, keep="first").reset_index(drop=True)
-    removed = before - len(df)
-    print(f"deduplicate: removed {removed} exact duplicates, {len(df)} postings remain")
+    df = df.drop_duplicates(subset=subset, keep="first")
+    exact_removed = before - len(df)
+    df["_norm"] = df["text"].map(_normalize) if "text" in df.columns else df[subset].fillna("").agg(" ".join, axis=1).map(_normalize)
+    df = df.drop_duplicates(subset=["_norm"], keep="first").drop(columns=["_norm"]).reset_index(drop=True)
+    norm_removed = before - exact_removed - len(df)
+    print(f"deduplicate: removed {exact_removed} exact + {norm_removed} case/punctuation duplicates, {len(df)} postings remain")
     return df
 
 

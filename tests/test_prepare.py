@@ -40,3 +40,11 @@ def test_deduplicate_keeps_same_title_different_body():
         {"title": "A", "description": "different"},
     ]
     assert len(deduplicate(pd.DataFrame(rows))) == 2
+
+
+def test_deduplicate_removes_case_punctuation_variants():
+    rows = [
+        {"title": "Data Entry", "description": "Work FROM home!!"},
+        {"title": "data entry", "description": "work from home  "},
+    ]
+    assert len(deduplicate(pd.DataFrame(rows))) == 1
