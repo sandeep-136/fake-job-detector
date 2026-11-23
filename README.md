@@ -40,6 +40,11 @@ kind of project all flatter the scores:
    accuracy is meaningless - a model calling everything "real" already scores
    ~95% and detects nothing. All metrics are for the **fraud class**
    (precision, recall, F1) plus ROC-AUC.
+   **Disclosure:** an earlier iteration of this project inspected the test set
+   during model selection; the protocol above is the correction. These numbers
+   are therefore a *corrected exploratory evaluation*, not a pristine
+   untouched-test measurement - a future refit on a re-drawn split (see
+   Roadmap) is needed for that.
 3. **Model selection uses the training set only**: 5-fold stratified
    cross-validation, ranked by mean fraud-class F1. The test set plays no part
    in choosing the model.
@@ -76,10 +81,11 @@ free-text fields.
 ![Confusion matrix](docs/confusion_matrix.png)
 
 On the full test set the model catches 112 of 142 fraudulent postings with 8
-false alarms on 3,008 real ones. The restricted row is the one to quote when
-asked "how well does it work on postings unlike the training data": recall
-drops to 0.66, because 40% of the test set overlaps with training and flatters
-the headline number.
+false alarms on 3,008 real ones. The restricted row is the more informative
+one: recall drops to 0.66, because 40% of the test set overlaps with training
+and flatters the headline number. It is still only a *diagnostic* - filtering
+lookalikes from one already-inspected split is not proof of performance on
+genuinely unseen, current postings.
 
 ![ROC curve](docs/roc_curve.png)
 
@@ -128,3 +134,8 @@ python -m pytest tests/
 
 - **M2:** inference API + web UI - paste a posting, get a score with the
   uncertainty framing above, plus safe-verification tips.
+- **Evaluation hardening:** group-aware splitting - cluster near-duplicate
+  postings into groups and keep whole groups on one side of the split and
+  within single CV folds - so generalization claims stop relying on the
+  near-twin diagnostic. Until then, no strong claims about performance on
+  unseen data.
